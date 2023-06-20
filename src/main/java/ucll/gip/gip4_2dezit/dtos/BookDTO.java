@@ -1,15 +1,8 @@
-package ucll.gip.gip4_2dezit.requests;
+package ucll.gip.gip4_2dezit.dtos;
 
-import ucll.gip.gip4_2dezit.model.Author;
 import ucll.gip.gip4_2dezit.model.Book;
-import ucll.gip.gip4_2dezit.service.AuthorService;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
-import java.util.Optional;
-
-public class CreateBookRequest {
+public class BookDTO {
     private String isbnNumber;
     private String title;
     private String authorName;
@@ -53,5 +46,22 @@ public class CreateBookRequest {
         book.setTitle(title);
         book.setDescription(description);
         return book;
+    }
+
+    public BookDTO(String isbnNumber, String title, String authorName, String description) {
+        this.isbnNumber = isbnNumber;
+        this.title = title;
+        this.authorName = authorName;
+        this.description = description;
+    }
+
+    public BookDTO() {
+
+    }
+
+    public BookDTO(String isbnNumber, String title, String description) {
+        this.isbnNumber = isbnNumber;
+        this.title = title;
+        this.description = description;
     }
 }

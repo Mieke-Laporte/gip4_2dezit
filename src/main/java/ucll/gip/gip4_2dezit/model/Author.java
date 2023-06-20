@@ -29,7 +29,7 @@ public class Author {
 
     public void addBook(Book book){
         books.add(book);
-        book.setAuthor(this);
+        //book.setAuthor(this);
     }
 
     public void removeBook(Book book) {

@@ -3,10 +3,9 @@ package ucll.gip.gip4_2dezit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ucll.gip.gip4_2dezit.model.User;
-import ucll.gip.gip4_2dezit.requests.CreateUserRequest;
+import ucll.gip.gip4_2dezit.dtos.UserDTO;
 import ucll.gip.gip4_2dezit.service.UserAllreadyExistsException;
 import ucll.gip.gip4_2dezit.service.UserPasswordEmptyException;
 import ucll.gip.gip4_2dezit.service.UserService;
@@ -23,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping("/addUser")
-    public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest userRequest) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDTO userRequest) {
         try {
             userService.createUser(userRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.findUserByUsername(userRequest.getName()));

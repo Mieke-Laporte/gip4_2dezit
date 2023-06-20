@@ -6,11 +6,10 @@ import org.springframework.stereotype.Service;
 import ucll.gip.gip4_2dezit.model.Role;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.repository.UserRepository;
-import ucll.gip.gip4_2dezit.requests.CreateUserRequest;
+import ucll.gip.gip4_2dezit.dtos.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -25,16 +24,16 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void createUser(CreateUserRequest createUserRequest) {
-        if (createUserRequest.getRawPassword().isEmpty() || createUserRequest.getRawPassword().strip().equals("")){
+    public void createUser(UserDTO userDTO) {
+        if (userDTO.getRawPassword().isEmpty() || userDTO.getRawPassword().strip().equals("")){
             throw new UserPasswordEmptyException();
         }
-        if (findUserByUsername(createUserRequest.getName()).isPresent()){
+        if (findUserByUsername(userDTO.getName()).isPresent()){
             throw new UserAllreadyExistsException();
         }
-        String password = createUserRequest.getRawPassword();
+        String password = userDTO.getRawPassword();
         String encodedPassword = passwordEncoder.encode(password);
-        User user = createUserRequest.toUser(Role.UITGEVER); //role admin needs to be added via the database itself
+        User user = userDTO.toUser(Role.UITGEVER); //role admin needs to be added via the database itself
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }

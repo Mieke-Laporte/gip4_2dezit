@@ -1,11 +1,10 @@
-package ucll.gip.gip4_2dezit.requests;
+package ucll.gip.gip4_2dezit.dtos;
 
 import ucll.gip.gip4_2dezit.model.Author;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class CreateAuthorRequest {
+public class AuthorDTO {
     private String name;
     private String birthDate;
     private String biography;

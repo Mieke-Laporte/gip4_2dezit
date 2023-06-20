@@ -1,9 +1,9 @@
-package ucll.gip.gip4_2dezit.requests;
+package ucll.gip.gip4_2dezit.dtos;
 
 import ucll.gip.gip4_2dezit.model.Role;
 import ucll.gip.gip4_2dezit.model.User;
 
-public class CreateUserRequest {
+public class UserDTO {
     private String name;
     private String address;
     private String contactInformation;

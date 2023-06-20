@@ -1,12 +1,11 @@
 package ucll.gip.gip4_2dezit.model;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,21 @@ public class Author {
     private String biography;
 
     @OneToMany(mappedBy = "author")
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book){
+        books.add(book);
+        book.setAuthor(this);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+        book.setAuthor(null);
+    }
 
     public int getId() {
         return id;

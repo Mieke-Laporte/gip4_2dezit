@@ -7,23 +7,51 @@ import ucll.gip.gip4_2dezit.service.AuthorService;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import java.util.Optional;
 
 public class CreateBookRequest {
-    private AuthorService authorService;
     private String isbnNumber;
     private String title;
     private String authorName;
     private String description;
+
+    public String getIsbnNumber() {
+        return isbnNumber;
+    }
+
+    public void setIsbnNumber(String isbnNumber) {
+        this.isbnNumber = isbnNumber;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Book toBook(){
         Book book = new Book();
         book.setIsbnNumber(isbnNumber);
         book.setTitle(title);
         book.setDescription(description);
-        if (authorService.findAuthorByName(authorName).isPresent()){
-            Author author = authorService.findAuthorByName(authorName).get();
-            book.setAuthor(author);
-        }
         return book;
     }
 }

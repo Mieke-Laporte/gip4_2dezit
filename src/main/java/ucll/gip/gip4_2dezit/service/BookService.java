@@ -2,8 +2,10 @@ package ucll.gip.gip4_2dezit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ucll.gip.gip4_2dezit.model.Author;
 import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.repository.BookRepo;
+import ucll.gip.gip4_2dezit.requests.CreateBookRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +15,23 @@ public class BookService {
     @Autowired
     private BookRepo bookRepo;
 
-    public Book addBook(Book book){
+    @Autowired
+    private AuthorService authorService;
+
+    public Book addBook(CreateBookRequest createBookRequest){
+        if (createBookRequest.getTitle() == null || createBookRequest.getTitle().isBlank()){
+            throw new BookTitleIsEmptyException();
+        }
+        if (createBookRequest.getIsbnNumber() == null || createBookRequest.getIsbnNumber().isBlank()){
+            throw new BookIsbnNumberIsEmptyException();
+        }
+        Book book = createBookRequest.toBook();
+        Optional<Author> optionalAuthor = authorService.findAuthorByName(createBookRequest.getAuthorName());
+        if (optionalAuthor.isPresent()) {
+            Author author = optionalAuthor.get();
+            author.addBook(book); // Use the addBook method in Author class
+            authorService.saveAuthor(author); // Save the updated author entity
+        }
         return bookRepo.save(book);
     }
 
@@ -25,7 +43,7 @@ public class BookService {
         return bookRepo.findById(id);
     }
 
-    public void deleteBook(Book book){
+    private void deleteBook(Book book){
         bookRepo.delete(book);
     }
 

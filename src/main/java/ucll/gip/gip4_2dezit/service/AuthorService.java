@@ -42,4 +42,8 @@ public class AuthorService {
     public void deleteAuthorById(int id){
         findAuthorById(id).ifPresent(author -> authorRepo.delete(author));
     }
+
+    public void saveAuthor(Author author) {
+        authorRepo.save(author);
+    }
 }

@@ -19,7 +19,7 @@ public class BookRestController {
 
     @PostMapping("/addBook")
     public Book addBook(@Valid @RequestBody CreateBookRequest createBookRequest){
-        return bookService.addBook(createBookRequest.toBook());
+        return bookService.addBook(createBookRequest);
     }
 
     @GetMapping("/getBooks")

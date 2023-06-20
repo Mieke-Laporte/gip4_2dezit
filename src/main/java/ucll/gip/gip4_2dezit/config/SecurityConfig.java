@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").permitAll() // Allow registration
+                .antMatchers(HttpMethod.GET, "/users/all").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/users/addUser").permitAll() // Allow registration
                 .antMatchers(HttpMethod.POST, "/books/**").hasRole("UITGEVER") // Restrict book creation to publishers
                 .antMatchers(HttpMethod.PUT, "/books/**").hasRole("UITGEVER") // Restrict book update to publishers
                 .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("UITGEVER") // Restrict book deletion to publishers
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/authors/**").hasRole("UITGEVER") // Restrict author update to publishers
                 .antMatchers(HttpMethod.DELETE, "/authors/**").hasRole("UITGEVER") // Restrict author deletion to publishers
                 .antMatchers("/admin/**").hasRole("ADMIN") // Restrict publisher statistics to admins
-                //.anyRequest().permitAll() // Allow all other requests
+                .anyRequest().denyAll()
                 .and()
                 .httpBasic();
     }

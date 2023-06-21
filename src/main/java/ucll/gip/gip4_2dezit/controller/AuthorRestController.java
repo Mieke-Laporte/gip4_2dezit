@@ -3,6 +3,7 @@ package ucll.gip.gip4_2dezit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ucll.gip.gip4_2dezit.dtos.AuthorListItemDTO;
 import ucll.gip.gip4_2dezit.model.Author;
 import ucll.gip.gip4_2dezit.dtos.AuthorDTO;
 import ucll.gip.gip4_2dezit.service.AuthorNameIsEmptyException;
@@ -29,8 +30,13 @@ public class AuthorRestController {
     }
 
     @GetMapping("/getAuthors")
-    public List<Author> getAuthors(){
-        return authorService.getAuthors();
+    public ResponseEntity<Object> getAuthors(){
+        try {
+            List<AuthorListItemDTO> authorListItemDTOS = authorService.getAuthors();
+            return ResponseEntity.ok(authorListItemDTOS);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/getAuthorById/{id}")

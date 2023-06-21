@@ -2,10 +2,13 @@ package ucll.gip.gip4_2dezit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ucll.gip.gip4_2dezit.dtos.AuthorListItemDTO;
 import ucll.gip.gip4_2dezit.model.Author;
+import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.repository.AuthorRepo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +30,21 @@ public class AuthorService {
         return authorRepo.save(author);
     }
 
-    public List<Author> getAuthors(){
-        return authorRepo.findAll();
+    public List<AuthorListItemDTO> getAuthors(){
+        List<Author> authorList = authorRepo.findAll();
+        List<AuthorListItemDTO> authorListItemDTOS = new ArrayList<AuthorListItemDTO>();
+        for (Author author: authorList) {
+            AuthorListItemDTO authorListItemDTO = new AuthorListItemDTO();
+            authorListItemDTO.setId(author.getId());
+            authorListItemDTO.setName(author.getName());
+            authorListItemDTO.setBiography(author.getBiography());
+            authorListItemDTO.setBirthDate(author.getBirthDate().toString());
+            for (Book book: author.getBooks()) {
+                authorListItemDTO.addBook(book.getIsbnNumber() + ", " + book.getTitle());
+            }
+            authorListItemDTOS.add(authorListItemDTO);
+        }
+        return authorListItemDTOS;
     }
 
     public Optional<Author> findAuthorById(int id){

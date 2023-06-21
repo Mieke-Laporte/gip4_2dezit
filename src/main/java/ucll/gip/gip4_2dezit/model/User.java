@@ -1,6 +1,8 @@
 package ucll.gip.gip4_2dezit.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,9 @@ public class User {
     private String name;
     private String address;
     private String contactInformation;
+
+    @OneToMany(mappedBy = "user")
+    private List<Book> books = new ArrayList<Book>();
 
     public Role getRole() {
         return role;
@@ -72,5 +77,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book){
+        books.add(book);
     }
 }

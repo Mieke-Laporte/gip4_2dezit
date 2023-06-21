@@ -45,10 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/all").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/users/addUser").permitAll() // Allow registration
-                .antMatchers(HttpMethod.GET, "/books/getBooks").permitAll()
+                .antMatchers(HttpMethod.GET, "/books/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/books/**").hasRole("UITGEVER") // Restrict book creation to publishers
                 .antMatchers(HttpMethod.PUT, "/books/**").hasRole("UITGEVER") // Restrict book update to publishers
                 .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("UITGEVER") // Restrict book deletion to publishers
+                .antMatchers(HttpMethod.GET, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
                 .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
                 .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
                 .antMatchers(HttpMethod.PUT, "/authors/**").hasRole("UITGEVER") // Restrict author update to publishers

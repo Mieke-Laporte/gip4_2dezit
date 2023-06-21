@@ -3,11 +3,14 @@ package ucll.gip.gip4_2dezit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ucll.gip.gip4_2dezit.dtos.UserDTOItem;
+import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.model.Role;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.repository.UserRepository;
 import ucll.gip.gip4_2dezit.dtos.UserDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -47,15 +50,29 @@ public class UserService {
         return userRepository.findByName(username);
     }
 
-    public List<User> getAllUsers() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false).toList();
-    }
-
-    public void updateUser(User user) {
-        userRepository.save(user);
+    public List<UserDTOItem> getAllUsers() {
+        List<User> userList = StreamSupport.stream(userRepository.findAll().spliterator(), false).toList();
+        List<UserDTOItem> userDTOItems = new ArrayList<>();
+        for (User user: userList) {
+            UserDTOItem userDTO = new UserDTOItem();
+            userDTO.setId(user.getId());
+            userDTO.setName(user.getName());
+            userDTO.setAddress(user.getAddress());
+            userDTO.setContactInformation(user.getContactInformation());
+            userDTO.setRole(user.getRole().name());
+            for (Book book: user.getBooks()){
+                userDTO.addBookString(book.getIsbnNumber() + ", " + book.getTitle());
+            }
+            userDTOItems.add(userDTO);
+        }
+        return userDTOItems;
     }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 }

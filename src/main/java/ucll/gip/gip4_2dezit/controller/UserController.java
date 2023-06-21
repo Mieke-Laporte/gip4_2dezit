@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ucll.gip.gip4_2dezit.dtos.UserDTOItem;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.dtos.UserDTO;
 import ucll.gip.gip4_2dezit.service.UserAllreadyExistsException;
@@ -30,6 +31,8 @@ public class UserController {
             return ResponseEntity.badRequest().body("Password cannot be empty");
         } catch (UserAllreadyExistsException e){
             return ResponseEntity.badRequest().body("User with username " + userRequest.getName() + " already exists.");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @GetMapping("/{id}")
@@ -42,8 +45,8 @@ public class UserController {
         }
     }
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDTOItem>> getAllUsers() {
+        List<UserDTOItem> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 

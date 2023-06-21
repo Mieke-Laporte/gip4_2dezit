@@ -1,16 +1,37 @@
 package ucll.gip.gip4_2dezit.dtos;
 
-import ucll.gip.gip4_2dezit.model.Role;
-import ucll.gip.gip4_2dezit.model.User;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTOItem {
+    private long id;
     private String name;
     private String address;
     private String contactInformation;
-    private String rawPassword;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private List<String> bookStrings = new ArrayList<String>();
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -36,20 +57,11 @@ public class UserDTO {
         this.contactInformation = contactInformation;
     }
 
-    public String getRawPassword() {
-        return rawPassword;
+    public List<String> getBookStrings() {
+        return bookStrings;
     }
 
-    public void setRawPassword(String rawPassword) {
-        this.rawPassword = rawPassword;
-    }
-
-    public User toUser(Role role){
-        User user = new User();
-        user.setName(this.getName());
-        user.setAddress(this.getAddress());
-        user.setContactInformation(this.getContactInformation());
-        user.setRole(role);
-        return user;
+    public void addBookString(String bookString) {
+        bookStrings.add(bookString);
     }
 }

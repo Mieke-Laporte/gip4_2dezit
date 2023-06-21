@@ -9,6 +9,7 @@ import ucll.gip.gip4_2dezit.repository.AuthorRepo;
 import ucll.gip.gip4_2dezit.service.exceptions.AuthorBirthDateIsInFutureException;
 import ucll.gip.gip4_2dezit.service.exceptions.AuthorBirthDateIsNullException;
 import ucll.gip.gip4_2dezit.service.exceptions.AuthorNameIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.AuthorNotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,6 +34,23 @@ public class AuthorService {
         return authorRepo.save(author);
     }
 
+    public Author updateAuthor(int id, Author updateAuthor){
+        if (updateAuthor.getName() == null || updateAuthor.getName().isBlank()){
+            throw new AuthorNameIsEmptyException("author name is empty, please provide a name");
+        }
+        if (updateAuthor.getBirthDate() == null){
+            throw new AuthorBirthDateIsNullException();
+        }
+        else if (updateAuthor.getBirthDate().isAfter(LocalDate.now())){
+            throw new AuthorBirthDateIsInFutureException();
+        }
+        Author author = findAuthorById(id).orElseThrow(AuthorNotFoundException::new);
+        author.setName(updateAuthor.getName());
+        author.setBirthDate(updateAuthor.getBirthDate());
+        author.setBiography(updateAuthor.getBiography());
+        return authorRepo.save(author);
+    }
+
     public List<AuthorListItemDTO> getAuthors(){
         List<Author> authorList = authorRepo.findAll();
         List<AuthorListItemDTO> authorListItemDTOS = new ArrayList<AuthorListItemDTO>();
@@ -51,7 +69,11 @@ public class AuthorService {
     }
 
     public Optional<Author> findAuthorById(int id){
-        return authorRepo.findById(id);
+        Optional<Author> author = authorRepo.findById(id);
+        if (author.isEmpty()){
+            throw new AuthorNotFoundException();
+        }
+        return author;
     }
 
     public Optional<Author> findAuthorByName(String name){

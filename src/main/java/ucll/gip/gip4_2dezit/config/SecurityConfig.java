@@ -44,17 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/all").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/users/addUser").permitAll() // Allow registration
+                .antMatchers(HttpMethod.POST, "/users/addUser").permitAll()
                 .antMatchers(HttpMethod.GET, "/books/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/books/**").hasRole("UITGEVER") // Restrict book creation to publishers
-                .antMatchers(HttpMethod.PUT, "/books/**").hasRole("UITGEVER") // Restrict book update to publishers
-                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("UITGEVER") // Restrict book deletion to publishers
-                .antMatchers(HttpMethod.GET, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
-                .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
-                .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER") // Restrict author creation to publishers
-                .antMatchers(HttpMethod.PUT, "/authors/**").hasRole("UITGEVER") // Restrict author update to publishers
-                .antMatchers(HttpMethod.DELETE, "/authors/**").hasRole("UITGEVER") // Restrict author deletion to publishers
-                .antMatchers("/admin/**").hasRole("ADMIN") // Restrict publisher statistics to admins
+                .antMatchers(HttpMethod.POST, "/books/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.PUT, "/books/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.GET, "/authors/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.POST, "/authors/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.PUT, "/authors/**").hasRole("UITGEVER")
+                .antMatchers(HttpMethod.DELETE, "/authors/**").hasRole("UITGEVER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().denyAll()
                 .and()
                 .httpBasic();

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ucll.gip.gip4_2dezit.dtos.BookWithUserDTO;
 import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.dtos.BookDTO;
 import ucll.gip.gip4_2dezit.service.exceptions.BookAllreadyExistsException;
@@ -66,11 +67,20 @@ public class BookRestController {
         }
     }
 
-    @GetMapping("/getBookById/{id}")
-    public ResponseEntity<Object> getBookById(@PathVariable("id") String id){
+    @GetMapping("/getBookByISBN/{id}")
+    public ResponseEntity<Object> getBookByISBN(@PathVariable("id") String id){
         try {
             Optional<Book> optionalBook = bookService.getBookById(id);
-            if (optionalBook.isPresent()) return ResponseEntity.ok(optionalBook.get());
+            if (optionalBook.isPresent()) {
+                Book book = optionalBook.get();
+                BookWithUserDTO bookWithUserDTO = new BookWithUserDTO();
+                bookWithUserDTO.setIsbnNumber(book.getIsbnNumber());
+                bookWithUserDTO.setDescription(book.getDescription());
+                bookWithUserDTO.setTitle(book.getTitle());
+                if (book.getAuthor() != null) bookWithUserDTO.setAuthorName(book.getAuthor().getName());
+                if (book.getUser() != null) bookWithUserDTO.setUserName(book.getUser().getName());
+                return ResponseEntity.ok(bookWithUserDTO);
+            }
             else return ResponseEntity.notFound().build();
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ucll.gip.gip4_2dezit.dtos.AuthorListItemDTO;
 import ucll.gip.gip4_2dezit.model.Author;
 import ucll.gip.gip4_2dezit.dtos.AuthorDTO;
-import ucll.gip.gip4_2dezit.service.AuthorNameIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.AuthorNameIsEmptyException;
 import ucll.gip.gip4_2dezit.service.AuthorService;
 
 import java.util.List;

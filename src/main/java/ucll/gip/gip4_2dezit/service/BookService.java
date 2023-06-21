@@ -8,6 +8,9 @@ import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.repository.BookRepo;
 import ucll.gip.gip4_2dezit.dtos.BookDTO;
+import ucll.gip.gip4_2dezit.service.exceptions.BookAllreadyExistsException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookIsbnNumberIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookTitleIsEmptyException;
 
 import java.util.ArrayList;
 import java.util.List;

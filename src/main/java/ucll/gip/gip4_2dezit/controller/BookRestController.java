@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.dtos.BookDTO;
-import ucll.gip.gip4_2dezit.service.BookAllreadyExistsException;
-import ucll.gip.gip4_2dezit.service.BookIsbnNumberIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookAllreadyExistsException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookIsbnNumberIsEmptyException;
 import ucll.gip.gip4_2dezit.service.BookService;
-import ucll.gip.gip4_2dezit.service.BookTitleIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookTitleIsEmptyException;
 
 import javax.validation.Valid;
 import java.util.List;

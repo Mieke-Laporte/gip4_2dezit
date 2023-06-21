@@ -1,4 +1,4 @@
-package ucll.gip.gip4_2dezit.service;
+package ucll.gip.gip4_2dezit.service.exceptions;
 
 public class BookAllreadyExistsException extends RuntimeException {
 }

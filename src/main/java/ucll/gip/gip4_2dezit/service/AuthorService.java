@@ -6,6 +6,9 @@ import ucll.gip.gip4_2dezit.dtos.AuthorListItemDTO;
 import ucll.gip.gip4_2dezit.model.Author;
 import ucll.gip.gip4_2dezit.model.Book;
 import ucll.gip.gip4_2dezit.repository.AuthorRepo;
+import ucll.gip.gip4_2dezit.service.exceptions.AuthorBirthDateIsInFutureException;
+import ucll.gip.gip4_2dezit.service.exceptions.AuthorBirthDateIsNullException;
+import ucll.gip.gip4_2dezit.service.exceptions.AuthorNameIsEmptyException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

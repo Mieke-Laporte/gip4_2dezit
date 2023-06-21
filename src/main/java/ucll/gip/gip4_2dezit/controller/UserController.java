@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ucll.gip.gip4_2dezit.dtos.UserDTOItem;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.dtos.UserDTO;
-import ucll.gip.gip4_2dezit.service.UserAllreadyExistsException;
-import ucll.gip.gip4_2dezit.service.UserPasswordEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.UserAllreadyExistsException;
+import ucll.gip.gip4_2dezit.service.exceptions.UserPasswordEmptyException;
 import ucll.gip.gip4_2dezit.service.UserService;
 
 import java.util.List;

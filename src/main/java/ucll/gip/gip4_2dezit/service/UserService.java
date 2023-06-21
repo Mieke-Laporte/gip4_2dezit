@@ -9,6 +9,8 @@ import ucll.gip.gip4_2dezit.model.Role;
 import ucll.gip.gip4_2dezit.model.User;
 import ucll.gip.gip4_2dezit.repository.UserRepository;
 import ucll.gip.gip4_2dezit.dtos.UserDTO;
+import ucll.gip.gip4_2dezit.service.exceptions.UserAllreadyExistsException;
+import ucll.gip.gip4_2dezit.service.exceptions.UserPasswordEmptyException;
 
 import java.util.ArrayList;
 import java.util.List;

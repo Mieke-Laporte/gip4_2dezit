@@ -10,6 +10,7 @@ import ucll.gip.gip4_2dezit.repository.BookRepo;
 import ucll.gip.gip4_2dezit.dtos.BookDTO;
 import ucll.gip.gip4_2dezit.service.exceptions.BookAllreadyExistsException;
 import ucll.gip.gip4_2dezit.service.exceptions.BookIsbnNumberIsEmptyException;
+import ucll.gip.gip4_2dezit.service.exceptions.BookNotFoundException;
 import ucll.gip.gip4_2dezit.service.exceptions.BookTitleIsEmptyException;
 
 import java.util.ArrayList;
@@ -64,6 +65,47 @@ public class BookService {
         });
 
         return bookDTO1;
+    }
+
+    public BookDTO updateBook(String id, BookDTO bookDTO){
+        if (bookDTO.getTitle() == null || bookDTO.getTitle().isBlank()) {
+            throw new BookTitleIsEmptyException();
+        }
+        if (bookDTO.getIsbnNumber() == null || bookDTO.getIsbnNumber().isBlank()) {
+            throw new BookIsbnNumberIsEmptyException();
+        }
+        Book book = getBookById(id).orElseThrow(BookNotFoundException::new);
+        /*if (!bookDTO.getIsbnNumber().equals(id)){
+            if (getBookById(bookDTO.getIsbnNumber()).isPresent()){
+                throw new BookAllreadyExistsException();
+            } else book.setIsbnNumber(bookDTO.getIsbnNumber());
+        }*/
+        book.setTitle(bookDTO.getTitle());
+        book.setDescription(bookDTO.getDescription());
+        Optional<Author> optionalAuthor = authorService.findAuthorByName(bookDTO.getAuthorName());
+        Optional<Author> optionalPrevAuthor = Optional.empty();
+        if (optionalAuthor.isPresent()) {
+            Author author = optionalAuthor.get();
+            if (book.getAuthor().getId() != author.getId()){
+                optionalPrevAuthor = Optional.ofNullable(book.getAuthor());
+                book.setAuthor(author);
+                optionalPrevAuthor.ifPresent(value -> value.removeBook(book));
+                author.addBook(book);
+            }
+        }
+        Book savedBook = bookRepo.save(book);
+        optionalAuthor.ifPresent(author -> authorService.saveAuthor(author));
+        optionalPrevAuthor.ifPresent(author -> authorService.saveAuthor(author));
+        BookDTO dto = new BookDTO();
+        dto.setIsbnNumber(savedBook.getIsbnNumber());
+        dto.setTitle(savedBook.getTitle());
+        dto.setDescription(savedBook.getDescription());
+        optionalAuthor.ifPresent(author -> {
+            dto.setAuthorName(author.getName());
+        });
+
+        return dto;
+
     }
 
     public List<BookDTO> getBooks() {

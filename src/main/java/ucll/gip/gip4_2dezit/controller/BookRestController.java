@@ -9,6 +9,7 @@ import ucll.gip.gip4_2dezit.dtos.BookDTO;
 import ucll.gip.gip4_2dezit.service.exceptions.BookAllreadyExistsException;
 import ucll.gip.gip4_2dezit.service.exceptions.BookIsbnNumberIsEmptyException;
 import ucll.gip.gip4_2dezit.service.BookService;
+import ucll.gip.gip4_2dezit.service.exceptions.BookNotFoundException;
 import ucll.gip.gip4_2dezit.service.exceptions.BookTitleIsEmptyException;
 
 import javax.validation.Valid;
@@ -37,6 +38,24 @@ public class BookRestController {
         }
     }
 
+    @PutMapping("/updateBook/{id}")
+    public ResponseEntity<Object> updateBook(@PathVariable("id") String id, @RequestBody BookDTO bookDTO){
+        try {
+            BookDTO res = bookService.updateBook(id, bookDTO);
+            return ResponseEntity.ok(res);
+        } catch (BookIsbnNumberIsEmptyException e){
+            return ResponseEntity.badRequest().body("ISBN number should not be empty");
+        } catch (BookNotFoundException e){
+            return ResponseEntity.notFound().build();
+        } catch (BookTitleIsEmptyException e){
+            return ResponseEntity.badRequest().body("title should not be empty");
+        } catch (BookAllreadyExistsException e){
+            return ResponseEntity.badRequest().body("Another book with isbn number " + bookDTO.getIsbnNumber() + " already exists");
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/getBooks")
     public ResponseEntity<Object> getBooks(){
         try {
@@ -59,7 +78,7 @@ public class BookRestController {
 
     }
 
-    @PostMapping("/deleteBookById/{id}")
+    @DeleteMapping("/deleteBookById/{id}")
     public ResponseEntity<Object> deleteBookById(@PathVariable("id") String id){
         try{
             bookService.deleteBookById(id);

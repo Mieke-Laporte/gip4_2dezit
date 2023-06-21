@@ -34,7 +34,6 @@ public class Author {
 
     public void removeBook(Book book) {
         books.remove(book);
-        book.setAuthor(null);
     }
 
     public int getId() {

@@ -25,9 +25,9 @@ public class Gip42dezitApplication {
         application.encodePasswordAndPrint(password);*/
     }
 
-    /*public void encodePasswordAndPrint(String password) {
+    public void encodePasswordAndPrint(String password) {
         PasswordEncoder passwordEncoder = passwordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
         System.out.println("Encoded Password: " + encodedPassword);
-    }*/
+    }
 }
